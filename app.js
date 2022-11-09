@@ -16,7 +16,7 @@ db.once('open', () => {
 
 const Record = require('./models/record.js')
 const Category = require('./models/category.js')
-const iconSelected =require('./iconHelper')
+const iconSelected = require('./iconHelper')
 
 const app = express()
 
@@ -26,20 +26,48 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
-  const categoryName = req.query.filter
   return Record.find()
     .populate('categoryId', { icon: true }) // 利用categoryID與category collection做關聯，option{ icon:true }顯示特定欄位，不填整包丟進去
     .lean()
     .sort({ date: 'desc' })
     .then(records => {
       let totalAmount = 0
-      // 將UTC時間format為yyyy-MM-dd
-      records.forEach(record => {
-        record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
-        totalAmount += record.amount
-      })
+      if (records.length) {
+        // 將UTC時間format為yyyy-MM-dd
+        records.forEach(record => {
+          record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
+          totalAmount += record.amount
+        })
+        res.render('index', { records, totalAmount })
+      } else {
+        res.render('indexNoRecord', { totalAmount })
+      }
+    })
+    .catch(error => console.log(error))
+})
 
-      res.render('index', { records, totalAmount })
+app.get('/search', (req, res) => {
+  const categoryName = req.query.filter
+  return Category.findOne({ name: categoryName })
+    .then(category => {
+      const categoryId = category._id
+      return Record.find({ categoryId })
+        .populate('categoryId', { icon: true }) // 利用categoryID與category collection做關聯，option{ icon:true }顯示特定欄位，不填整包丟進去
+        .lean()
+        .sort({ date: 'desc' })
+        .then(records => {
+          let totalAmount = 0
+          if (records.length) {
+            records.forEach(record => {
+              record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
+              totalAmount += record.amount
+            })
+            return res.render('index', { records, totalAmount })
+          } else {
+            return res.render('indexNoRecord', { totalAmount })
+          }
+        })
+        .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
 })
@@ -69,7 +97,7 @@ app.get('/records/:_id/edit', (req, res) => {
     .lean()
     .then((record) => {
       // UTC時間轉為yyyy-MM-dd供input tag value使用
-      record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g,'-')
+      record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-')
       res.render('edit', { record })
     })
     .catch(error => console.log(error))
