@@ -16,7 +16,7 @@
   <div class="card mt-5 mb-3">
     <div class="card-body">
       <div class="row mb-4 text-center">
-        <h2>總金額: <span class="fs-1 text-warning fw-bolder">2,100</span></h2>
+        <h2>總金額: <span class="fs-1 text-warning fw-bolder">{{ totalAmount }}</span></h2>
       </div>
       <div class="row">
         <table class="table table-striped text-center align-middle">
@@ -24,7 +24,7 @@
             {{#if records}}
             {{#each records}}
             <tr>
-              <td>icon</td>
+              <td><i class="fs-1 {{ this.categoryId.icon }}"></i></td>
               <td>
                 <div class="fs-5">{{this.name}}</div>
                 <div class="fs-6">{{this.date}}</div>

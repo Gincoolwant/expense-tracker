@@ -15,6 +15,7 @@ db.once('open', () => {
 })
 
 const Record = require('./models/record.js')
+const Category = require('./models/category.js')
 
 const app = express()
 
@@ -25,13 +26,18 @@ app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   return Record.find()
+    .populate('categoryId', { icon: true }) // 利用categoryID與category collection做關聯，option{ icon:true }顯示特定欄位，不填整包丟進去
     .lean()
     .sort({ date: 'desc' })
     .then(records => {
+      let totalAmount = 0
+      // 將UTC時間format為yyyy-MM-dd
       records.forEach(record => {
         record.date = record.date.toLocaleDateString()
+        totalAmount += record.amount
       })
-      res.render('index', { records })
+
+      res.render('index', { records, totalAmount })
     })
     .catch(error => console.log(error))
 })
@@ -42,12 +48,23 @@ app.get('/new', (req, res) => {
 
 app.post('/records/new', (req, res) => {
   const { name, date, category, amount } = req.body
-  return Record.create({ name, date, category, amount })
-    .then(() => res.redirect('/'))
+  // 取出對應category資料
+  return Category.findOne({ name: category })
+    .then(category => {
+      const categoryId = category._id
+      // 將對應的categoryId塞進Record
+      return Record.create({ name, date, amount, categoryId })
+        .then(() => res.redirect('/'))
+        .catch(error => console.log(error))
+    })
     .catch(error => console.log(error))
 })
 
 app.get('/records/:_id/edit', (req, res) => {
+  res.render('edit')
+})
+
+app.put('/records/:_id', (req, res) => {
   res.render('edit')
 })
 
