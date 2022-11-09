@@ -4,14 +4,14 @@
     <div class="col-auto">
       <div class="card mt-3">
         <div class="card-body">
-          <h3 class="mb-1 text-center">請輸入你的支出</h3>
-          <form action="/records/new" method="POST" id="create_form" novalidate>
+          <h3 class="mb-1 text-center">修改支出</h3>
+          <form action="/records/{{ record._id }}?_method=put" method="POST" id="create_form" novalidate>
             <div class="row mt-3">
               <div class="col-5 text-center">
                 <label for="name" class="col-form-label">名稱</label>
               </div>
               <div class="col-7">
-                <input type="text" id="name" class="form-control" name="name" placeholder="請填入名稱" required>
+                <input type="text" id="name" class="form-control" name="name" placeholder="請填入名稱" value="{{ record.name }}" required>
                 <div class="invalid-feedback" style="font-size: 0.7em;">
                   必填資訊，請填入名稱
                 </div>
@@ -23,7 +23,7 @@
                 <label for="date" class="col-form-label">日期</label>
               </div>
               <div class="col-7">
-                <input type="date" id="date" class="form-control" name="date" placeholder="請填入日期" required>
+                <input type="date" id="date" class="form-control" name="date" placeholder="請填入日期"  value="{{ record.date }}"  required>
                 <div class="invalid-feedback" style="font-size: 0.7em;">
                   必填資訊，請填入日期
                 </div>
@@ -53,7 +53,7 @@
                 <label for="amount" class="col-form-label">金額</label>
               </div>
               <div class="col-7">
-                <input type="number" step="1" min="0" id="amount" class="form-control" name="amount" placeholder="請填入金額"
+                <input type="number" step="1" min="0" id="amount" class="form-control" name="amount" placeholder="請填入金額" value="{{ record.amount }}" 
                   required>
                 <div class="invalid-feedback" style="font-size: 0.7em;">
                   必填資訊，請填入金額
@@ -62,9 +62,8 @@
             </div>
 
             <div class="row mx-auto mt-3">
-              <button type="submit" class="btn btn-warning">新增支出</button>
+              <button type="submit" class="btn btn-success">儲存修改</button>
             </div>
-
           </form>
         </div>
       </div>
