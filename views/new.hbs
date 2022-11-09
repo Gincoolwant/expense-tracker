@@ -1,0 +1,214 @@
+<!-- create a new expense page -->
+<div class=".container">
+  <div class="row justify-content-center">
+    <div class="col-auto">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h3 class="mb-1 text-center">請輸入你的支出</h3>
+          <form action="/records/new" method="POST" id="create_form" novalidate>
+            <div class="row mt-3">
+              <div class="col-5 text-center">
+                <label for="name" class="col-form-label">名稱</label>
+              </div>
+              <div class="col-7">
+                <input type="text" id="name" class="form-control" name="name" placeholder="請填入名稱" required>
+                <div class="invalid-feedback" style="font-size: 0.7em;">
+                  必填資訊，請填入名稱
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-5 text-center">
+                <label for="date" class="col-form-label">日期</label>
+              </div>
+              <div class="col-7">
+                <input type="date" id="date" class="form-control" name="date" placeholder="請填入日期" required>
+                <div class="invalid-feedback" style="font-size: 0.7em;">
+                  必填資訊，請填入日期
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-5 text-center">
+                <label for="category" class="col-form-label">類別</label>
+              </div>
+              <div class="col-7">
+                <select id="category" class="form-select" name="category" required>
+                  <option selected>請選擇類別</option>
+                  <option value="house">家居物業</option>
+                  <option value="transportation">交通出行</option>
+                  <option value="food">餐飲食品</option>
+                  <option value="other">其他</option>
+                </select>
+                <div class="invalid-feedback" style="font-size: 0.7em;">
+                  必填資訊，請選擇類別
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-5 text-center">
+                <label for="amount" class="col-form-label">金額</label>
+              </div>
+              <div class="col-7">
+                <input type="number" step="1" min="0" id="amount" class="form-control" name="amount" placeholder="請填入金額"
+                  required>
+                <div class="invalid-feedback" style="font-size: 0.7em;">
+                  必填資訊，請填入金額
+                </div>
+              </div>
+            </div>
+
+            <div class="row mx-auto mt-3">
+              <button type="submit" class="btn btn-warning">新增支出</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{!--
+<div class="container d-flex flex-column justify-content-center">
+  <h1 class="mb-1 restaurant-show-title">新增餐廳</h1>
+  <form action="/restaurants/new" method="POST" id="create-form" novalidate>
+    <div class="row mt-2">
+      <div class="col-5 text-center">
+        <label for="name" class="col-form-label">名稱</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="name" class="form-control" name="name" placeholder="請填入餐廳名稱" required>
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          必填資訊，請填入餐廳名稱
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="name_en" class="col-form-label">英文名稱</label>
+      </div>
+      <div class="col-7">
+        <input type="text" pattern="[a-zA-Z0-9]*" id="name_en" class="form-control" name="name_en"
+          placeholder="請填入餐廳英文名稱">
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          輸入僅限英文及數字
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="category" class="col-form-label">餐廳類型</label>
+      </div>
+      <div class="col-7">
+        <input class="form-control" list="categoryOptions" id="category" name="category" placeholder="請選擇/填入餐廳類型"
+          required>
+        <datalist id="categoryOptions">
+          <option value="台式料理">
+          <option value="中式料理">
+          <option value="印度料理">
+          <option value="日式料理">
+          <option value="韓式料理">
+          <option value="義式料理">
+          <option value="歐式料理">
+          <option value="美式料理">
+          <option value="中東料理">
+          <option value="咖啡廳">
+          <option value="飲料">
+          <option value="酒吧">
+          <option value="其他(請自行輸入)">
+        </datalist>
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          必填資訊，請選擇/填入餐廳類型
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="image" class="col-form-label">圖片網址</label>
+      </div>
+      <div class="col-7">
+        <input type="url" pattern="https://.*" id="image" name="image" class="form-control"
+          placeholder="請填入圖片網址https://">
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          請填入https://開頭之有效網址
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="location" class="col-form-label">地址</label>
+      </div>
+      <div class="col-7">
+        <input type="text" id="location" name="location" class="form-control" placeholder="請填入餐廳地址" required>
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          必填資訊，請填入餐廳地址
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="phone" class="col-form-label">電話</label>
+      </div>
+      <div class="col-7">
+        <input type="tel" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" id="phone" name="phone" class="form-control"
+          placeholder="請填入電話xx-xxxx-xxxx">
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          請依格式填入e.g. 02-0807-9979
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="google_map" class="col-form-label">Google Map</label>
+      </div>
+      <div class="col-7">
+        <input type="url" pattern="https://.*" id="google_map" name="google_map" class="form-control"
+          placeholder="請填入G Map連結https://">
+        <div class="invalid-feedback" style="font-size: 0.7em;">
+          請填入https://開頭之有效網址
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="rating" class="col-form-label">餐廳評分
+      </div>
+      <div class="col-7">
+        <input type="number" step="0.1" min="0" max="5" id="rating" name="rating" class="form-control" name="rating"
+          placeholder="請填入餐廳評分(0~5)">
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-5 text-center">
+        <label for="description" class="col-form-label">餐廳簡介</label>
+      </div>
+      <div class="col-7">
+        <textarea id="description" name="description" class="form-control" placeholder="請填入餐廳簡介" rows="5"></textarea>
+      </div>
+    </div>
+
+    <div class="row mt-3 justify-content-end">
+      <div class="col-4 pe-0 text-end">
+        <a class="btn btn-primary" href="/">Home</a>
+      </div>
+      <div class="col-4 me-0 mb-5 text-end">
+        <button type="submit" class="btn btn-success fs-6" id="create-new-btn">Create</button>
+      </div>
+    </div>
+
+  </form>
+</div> --}}
