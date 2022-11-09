@@ -3,20 +3,24 @@
     <div class="dropdown">
       <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
         data-bs-toggle="dropdown" aria-expanded="false">
-        篩選
+        全部
       </a>
 
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="/">全部</a></li>
+        <li><a class="dropdown-item" href="/?filter=家居物業">家居物業</a></li>
+        <li><a class="dropdown-item" href="/?filter=交通出行">交通出行</a></li>
+        <li><a class="dropdown-item" href="/?filter=休閒娛樂">休閒娛樂</a></li>
+        <li><a class="dropdown-item" href="/?filter=餐飲食品">餐飲食品</a></li>
+        <li><a class="dropdown-item" href="/?filter=其他">其他</a></li>
+
       </ul>
     </div>
   </div>
   <div class="card mt-5 mb-3">
     <div class="card-body">
       <div class="row mb-4 text-center">
-        <h2>總金額: <span class="fs-1 text-warning fw-bolder">{{ totalAmount }}</span></h2>
+        <h2>總金額: <span class="fs-1 text-warning fw-bolder">${{ totalAmount }}</span></h2>
       </div>
       <div class="row">
         <table class="table table-striped text-center align-middle">
@@ -29,13 +33,13 @@
                 <div class="fs-5">{{this.name}}</div>
                 <div class="fs-6">{{this.date}}</div>
               </td>
-              <td>${{this.amount}}</td>
+              <td class="text-end">${{this.amount}}</td>
               <td>
                 <a href="/records/{{ this._id }}/edit" class="btn btn-primary">修改</a>
               </td>
               <td>
                 <form action="/records/{{ this._id }}?_method=delete" method="post">
-                  <button type="submit" class="btn btn-primary">刪除</button>
+                  <button type="submit" class="btn btn-danger">刪除</button>
                 </form>
               </td>
             </tr>

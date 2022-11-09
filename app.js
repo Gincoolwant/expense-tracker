@@ -16,6 +16,7 @@ db.once('open', () => {
 
 const Record = require('./models/record.js')
 const Category = require('./models/category.js')
+const iconSelected =require('./iconHelper')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
+  const categoryName = req.query.filter
   return Record.find()
     .populate('categoryId', { icon: true }) // 利用categoryID與category collection做關聯，option{ icon:true }顯示特定欄位，不填整包丟進去
     .lean()
@@ -33,7 +35,7 @@ app.get('/', (req, res) => {
       let totalAmount = 0
       // 將UTC時間format為yyyy-MM-dd
       records.forEach(record => {
-        record.date = record.date.toLocaleDateString()
+        record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
         totalAmount += record.amount
       })
 
@@ -61,11 +63,38 @@ app.post('/records/new', (req, res) => {
 })
 
 app.get('/records/:_id/edit', (req, res) => {
-  res.render('edit')
+  const { _id } = req.params
+  return Record.findOne({ _id })
+    .populate('categoryId', { name: true })
+    .lean()
+    .then((record) => {
+      // UTC時間轉為yyyy-MM-dd供input tag value使用
+      record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g,'-')
+      res.render('edit', { record })
+    })
+    .catch(error => console.log(error))
 })
 
 app.put('/records/:_id', (req, res) => {
-  res.render('edit')
+  const { _id } = req.params
+  const { name, date, category, amount } = req.body
+  // 取出對應category資料
+  return Category.findOne({ name: category })
+    .then(category => {
+      const categoryId = category._id
+      // 將欲修改的資料塞回指定的Record
+      return Record.findOne({ _id })
+        .then(record => {
+          record.name = name
+          record.date = date
+          record.amount = amount
+          record.categoryId = categoryId
+          record.save()
+        })
+        .then(() => res.redirect('/'))
+        .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
 })
 
 app.delete('/records/:_id', (req, res) => {
