@@ -14,8 +14,8 @@ module.exports = app => {
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email })
         .then(user => {
-          if (!user) return done(null, false)
-          if (password !== user.password) return done(null, false)
+          if (!user) return done(null, false, { message: '此Email尚未註冊' })
+          if (password !== user.password) return done(null, false, { message: '請確認Email或密碼是否正確。' })
           return done(null, user)
         })
         .catch(err => done(err))

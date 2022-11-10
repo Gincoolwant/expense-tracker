@@ -3,7 +3,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
-// const passport = require('passport')
+const flash = require('connect-flash')
 require('./configs/mongoose')
 
 const iconSelected = require('./iconHelper')
@@ -17,11 +17,16 @@ app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(session({ secret: 'ck', resave: false, saveUninitialized: true }))
+app.use(flash())
 
 usePassport(app)
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+  res.locals.success_msg = req.flash('success-msg')
+  res.locals.warning_msg = req.flash('warning-msg')
+  res.locals.error = req.flash('error')
+
   next()
 })
 app.use(routes)
