@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Record = require('../../models/record.js')
 const Category = require('../../models/category.js')
+const User = require('../../models/user.js')
 
 router.get('/search', (req, res) => {
   const categoryName = req.query.filter
