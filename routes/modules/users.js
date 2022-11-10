@@ -19,7 +19,11 @@ router.get('/register', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
-  const { name, email, password, confirmPassword } = req.body
+  const { email, password, confirmPassword } = req.body
+  let name = req.body.name
+  if (!name) {
+    name = email.slice(0, email.indexOf('@'))
+  }
   return User.findOne({ email })
     .then(user => {
       if (user) {

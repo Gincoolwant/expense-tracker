@@ -5,11 +5,12 @@ const Category = require('../../models/category.js')
 const User = require('../../models/user.js')
 
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const categoryName = req.query.filter
   return Category.findOne({ name: categoryName })
     .then(category => {
       const categoryId = category._id
-      return Record.find({ categoryId })
+      return Record.find({ userId, categoryId })
         .populate('categoryId', { icon: true }) // 利用categoryID與category collection做關聯，option{ icon:true }顯示特定欄位，不填整包丟進去
         .lean()
         .sort({ date: 'desc' })
@@ -36,13 +37,14 @@ router.get('/new', (req, res) => {
 })
 
 router.post('/new', (req, res) => {
+  const userId = req.user._id
   const { name, date, category, amount } = req.body
   // 取出對應category資料
   return Category.findOne({ name: category })
     .then(category => {
       const categoryId = category._id
       // 將對應的categoryId塞進Record
-      return Record.create({ name, date, amount, categoryId })
+      return Record.create({ name, date, amount, categoryId, userId })
         .then(() => res.redirect('/'))
         .catch(error => console.log(error))
     })
@@ -50,8 +52,9 @@ router.post('/new', (req, res) => {
 })
 
 router.get('/:_id/edit', (req, res) => {
+  const userId = req.user._id
   const { _id } = req.params
-  return Record.findOne({ _id })
+  return Record.findOne({ _id, userId })
     .populate('categoryId', { name: true })
     .lean()
     .then((record) => {
@@ -63,6 +66,7 @@ router.get('/:_id/edit', (req, res) => {
 })
 
 router.put('/:_id', (req, res) => {
+  const userId = req.user._id
   const { _id } = req.params
   const { name, date, category, amount } = req.body
   // 取出對應category資料
@@ -70,7 +74,7 @@ router.put('/:_id', (req, res) => {
     .then(category => {
       const categoryId = category._id
       // 將欲修改的資料塞回指定的Record
-      return Record.findOne({ _id })
+      return Record.findOne({ _id, userId })
         .then(record => {
           record.name = name
           record.date = date
@@ -85,8 +89,9 @@ router.put('/:_id', (req, res) => {
 })
 
 router.delete('/:_id', (req, res) => {
+  const userId = req.user._id
   const { _id } = req.params
-  return Record.deleteOne({ _id })
+  return Record.deleteOne({ _id, userId })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
