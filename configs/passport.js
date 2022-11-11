@@ -5,6 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20')
 const Record = require('../models/record')
 const Category = require('../models/category')
 const User = require('../models/user.js')
+const bcrypt = require('bcryptjs')
 
 module.exports = app => {
   app.use(passport.initialize())
@@ -14,9 +15,12 @@ module.exports = app => {
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email })
         .then(user => {
-          if (!user) return done(null, false, { message: '此Email尚未註冊' })
-          if (password !== user.password) return done(null, false, { message: '請確認Email或密碼是否正確。' })
-          return done(null, user)
+          if (!user) return done(null, false, { message: '請輸入有效Email。' })
+          return bcrypt.compare(password, user.password)
+            .then((isMatch) => {
+              if (!isMatch) return done(null, false, { message: '請確認Email或密碼是否正確。' })
+              return done(null, user)
+            })
         })
         .catch(err => done(err))
     })
@@ -34,7 +38,13 @@ module.exports = app => {
         .then(user => {
           if (user) return done(null, user)
           const randomPassword = Math.random().toString(36).slice(-8)
-          return User.create({ name, email, password: randomPassword })
+          return bcrypt.genSalt(10)
+            .then(salt => bcrypt.hash(randomPassword, salt))
+            .then(hash => {
+              return User.create({ name, email, password: hash })
+                .then(() => done(null, user))
+                .catch(err => done(err))
+            })
             .then(user => done(null, user))
             .catch(err => done(err))
         })
@@ -53,7 +63,13 @@ module.exports = app => {
       .then(user => {
         if (user) return done(null, user)
         const randomPassword = Math.random().toString(36).slice(-8)
-        return User.create({ name, email, password: randomPassword })
+        return bcrypt.genSalt(10)
+          .then(salt => bcrypt.hash(randomPassword, salt))
+          .then(hash => {
+            return User.create({ name, email, password: hash })
+              .then(() => done(null, user))
+              .catch(err => done(err))
+          })
           .then(user => done(null, user))
           .catch(err => done(err))
       })

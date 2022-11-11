@@ -4,11 +4,12 @@
     <div class="col-auto">
       <div class="card mt-3">
         <div class="card-body">
-          <h3 class="mb-1 text-center">修改支出</h3>
+          <h3 class="mb-1 text-center">請修改你的支出</h3>
+          <div class="requiredTag text-end text-danger">*為必填欄位</div>
           <form action="/records/{{ record._id }}?_method=put" method="POST" id="create_form" novalidate>
             <div class="row mt-3">
               <div class="col-5 text-center">
-                <label for="name" class="col-form-label">名稱</label>
+                <label for="name" class="col-form-label">名稱<span class="text-danger">*</span></label>
               </div>
               <div class="col-7">
                 <input type="text" id="name" class="form-control" name="name" placeholder="請填入名稱"
@@ -21,7 +22,7 @@
 
             <div class="row mt-2">
               <div class="col-5 text-center">
-                <label for="date" class="col-form-label">日期</label>
+                <label for="date" class="col-form-label">日期<span class="text-danger">*</span></label>
               </div>
               <div class="col-7">
                 <input type="date" id="date" class="form-control" name="date" value="{{ record.date }}" required>
@@ -33,7 +34,7 @@
 
             <div class="row mt-2">
               <div class="col-5 text-center">
-                <label for="category" class="col-form-label">類別</label>
+                <label for="category" class="col-form-label">類別<span class="text-danger">*</span></label>
               </div>
               <div class="col-7">
                 <select id="category" class="form-select" name="category" required>
@@ -53,7 +54,7 @@
 
             <div class="row mt-2">
               <div class="col-5 text-center">
-                <label for="amount" class="col-form-label">金額</label>
+                <label for="amount" class="col-form-label">金額<span class="text-danger">*</span></label>
               </div>
               <div class="col-7">
                 <input type="number" step="1" min="0" id="amount" class="form-control" name="amount" placeholder="請填入金額"
