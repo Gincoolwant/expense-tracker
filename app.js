@@ -6,7 +6,7 @@ const session = require('express-session')
 const flash = require('connect-flash')
 require('./configs/mongoose')
 
-const iconSelected = require('./iconHelper')
+const iconSelected = require('./public/javascripts/iconHelper')
 const routes = require('./routes/index')
 const usePassport = require('./configs/passport')
 

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "name": "測試者1號",
+      "email": "test1@test.com",
+      "password": "test1"
+    },
+    {
+      "name": "測試者2號",
+      "email": "test2@test.com",
+      "password": "test2"
+    }
+  ]
+}

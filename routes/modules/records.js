@@ -4,9 +4,11 @@ const Record = require('../../models/record.js')
 const Category = require('../../models/category.js')
 const User = require('../../models/user.js')
 
+// records filter by category
 router.get('/search', (req, res) => {
   const userId = req.user._id
-  const categoryName = req.query.filter
+  // 選取的篩選類別
+  const categoryName = req.query.filter 
   return Category.findOne({ name: categoryName })
     .then(category => {
       const categoryId = category._id
@@ -16,9 +18,12 @@ router.get('/search', (req, res) => {
         .sort({ date: 'desc' })
         .then(records => {
           let totalAmount = 0
+          // 若有支出render index頁, 無則render indexNoRecord
           if (records.length) {
             records.forEach(record => {
+              // 將UTC時間format為yyyy/MM/dd
               record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
+              // 計算此類別總金額
               totalAmount += record.amount
             })
             return res.render('index', { records, totalAmount })

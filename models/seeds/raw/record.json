@@ -1,0 +1,46 @@
+{
+  "results": [
+    {
+      "name": "買新房",
+      "date": "2022/11/11",
+      "amount": "15000000",
+      "userId": "測試者1號",
+      "categoryId": "家居物業"
+    },
+    {
+      "name": "加油",
+      "date": "2022/11/01",
+      "amount": "700",
+      "userId": "測試者1號",
+      "categoryId": "交通出行"
+    },
+    {
+      "name": "保險",
+      "date": "2022/11/05",
+      "amount": "6000",
+      "userId": "測試者1號",
+      "categoryId": "其他"
+    },
+    {
+      "name": "網飛地下飛月費",
+      "date": "2022/11/01",
+      "amount": "100",
+      "userId": "測試者2號",
+      "categoryId": "休閒娛樂"
+    },
+    {
+      "name": "早餐",
+      "date": "2022/11/11",
+      "amount": "60",
+      "userId": "測試者2號",
+      "categoryId": "餐飲食品"
+    },
+    {
+      "name": "午餐",
+      "date": "2022/11/11",
+      "amount": "110",
+      "userId": "測試者2號",
+      "categoryId": "餐飲食品"
+    }
+  ]
+}

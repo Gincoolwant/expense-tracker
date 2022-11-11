@@ -62,6 +62,7 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+  // 清空session
   req.logout((err) => {
     if (err) console.log(err)
     req.flash('success-msg', '你已成功登出。')

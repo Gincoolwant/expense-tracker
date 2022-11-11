@@ -1,12 +1,6 @@
-const mongoose = require('mongoose')
-const categoryList = require('./category.json').results
-mongoose.connect('mongodb+srv://alpha:camp@cluster0.0c2yjou.mongodb.net/expense-tracker?retryWrites=true&w=majority')
-const db = mongoose.connection
+const categoryList = require('./raw/category.json').results
+const db = require('../../configs/mongoose')
 const Category = require('../category.js')
-
-db.on('error', () => {
-  console.log('mongodb error')
-})
 
 db.once('open', () => {
   Promise.all(

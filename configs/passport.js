@@ -15,7 +15,9 @@ module.exports = app => {
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email })
         .then(user => {
+          // 無效email登入嘗試，flash msg提示
           if (!user) return done(null, false, { message: '請輸入有效Email。' })
+          // 比對bcrypt，相同則登入，不相同flash msg提示
           return bcrypt.compare(password, user.password)
             .then((isMatch) => {
               if (!isMatch) return done(null, false, { message: '請確認Email或密碼是否正確。' })
@@ -37,6 +39,7 @@ module.exports = app => {
       return User.findOne({ email })
         .then(user => {
           if (user) return done(null, user)
+          // 密碼必填，產生一組隨機密碼for auth登入者
           const randomPassword = Math.random().toString(36).slice(-8)
           return bcrypt.genSalt(10)
             .then(salt => bcrypt.hash(randomPassword, salt))
@@ -62,6 +65,7 @@ module.exports = app => {
     return User.findOne({ email })
       .then(user => {
         if (user) return done(null, user)
+         // 密碼必填，產生一組隨機密碼for auth登入者
         const randomPassword = Math.random().toString(36).slice(-8)
         return bcrypt.genSalt(10)
           .then(salt => bcrypt.hash(randomPassword, salt))

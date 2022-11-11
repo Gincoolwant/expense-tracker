@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     .then(records => {
       let totalAmount = 0
       if (records.length) {
-        // 將UTC時間format為yyyy-MM-dd
+        // 將UTC時間format為yyyy/MM/dd
         records.forEach(record => {
           record.date = record.date.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' })
           totalAmount += record.amount
