@@ -4,11 +4,15 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash')
-require('./configs/mongoose')
 
-const iconSelected = require('./public/javascripts/iconHelper')
-const routes = require('./routes/index')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+const iconSelected = require('./public/javaScripts/iconHelper')
 const usePassport = require('./configs/passport')
+const routes = require('./routes/index')
+require('./configs/mongoose')
 
 const app = express()
 
@@ -17,7 +21,7 @@ app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-app.use(session({ secret: 'ck', resave: false, saveUninitialized: true }))
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }))
 app.use(flash())
 
 usePassport(app)
@@ -32,8 +36,8 @@ app.use((req, res, next) => {
 })
 app.use(routes)
 
-const port = 3000
+const PORT = process.env.PORT
 // 監聽server啟動
-app.listen(port, () => {
-  console.log(`Server is connecting to http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`Server is connecting to http://localhost:${PORT}`)
 })

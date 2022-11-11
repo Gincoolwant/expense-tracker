@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 // 連線至DB
-mongoose.connect('mongodb+srv://alpha:camp@cluster0.0c2yjou.mongodb.net/expense-tracker?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URI)
 // 取得連線狀況
 const db = mongoose.connection
 
