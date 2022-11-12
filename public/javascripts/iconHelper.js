@@ -6,3 +6,5 @@ const iconSelected = handlebars.registerHelper('iconSelected', (recordIconName, 
     return options.inverse(this) 
   }
 })
+
+module.exports = iconSelected
