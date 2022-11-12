@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const iconSelected = require('./public/javaScripts/iconHelper')
+const iconSelected = require('./public/javaScripts/iconSelected')
 const usePassport = require('./configs/passport')
 const routes = require('./routes/index')
 require('./configs/mongoose')
