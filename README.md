@@ -77,7 +77,7 @@ npm run start
 
 成功連線時，終端機會看見訊息： `connecting to http://localhost:3000`與`mongodb is connecting`，請開啟瀏覽器輸入網址 http://localhost:3000 進入首頁。
 
-7. 可自行註冊或使用facebook & google帳號登入，或使用以下測試使用者
+7. 可自行註冊或使用facebook & google帳號登入，可直接使用以下測試使用者
 ```
 測試者一號
 email: test1@test.com
