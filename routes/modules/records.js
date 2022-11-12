@@ -8,7 +8,7 @@ const User = require('../../models/user.js')
 router.get('/search', (req, res) => {
   const userId = req.user._id
   // 選取的篩選類別
-  const categoryName = req.query.filter 
+  const categoryName = req.query.filter
   return Category.findOne({ name: categoryName })
     .then(category => {
       const categoryId = category._id
@@ -38,7 +38,13 @@ router.get('/search', (req, res) => {
 
 
 router.get('/new', (req, res) => {
-  res.render('new')
+  return Category.find()
+    .lean()
+    .then(categories => {
+      res.render('new', { categories })
+    })
+    .catch(error => console.log(error))
+
 })
 
 router.post('/new', (req, res) => {

@@ -9,8 +9,6 @@ const bcrypt = require('bcryptjs')
 const { findOne } = require('../user.js')
 const category = require('../category.js')
 
-
-
 db.once('open', () => {
   Promise.all(userList.map(user => {
     user.password = bcrypt.hashSync(user.password, 10)
@@ -18,7 +16,7 @@ db.once('open', () => {
   }))
     .then(() => {
       Promise.all(recordList.map(record => {
-        const { name, date, amount, userId, categoryId } = record // 這裡userId/categoryId = seeder中的ueserId(測試者1號)/category name(家居物業)
+        const { name, date, amount, userId, categoryId } = record // 這裡userId/categoryId = seeder中的userId(測試者1號)/category name(家居物業)
         return Category.findOne({ name: categoryId })
           .then(category => {
             const categoryId = category._id
