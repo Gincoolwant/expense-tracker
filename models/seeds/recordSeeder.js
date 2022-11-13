@@ -23,16 +23,17 @@ db.once('open', () => {
             return User.findOne({ name: userId })
               .then(user => {
                 const userId = user._id
-                Record.create({ name, date, amount, userId, categoryId })
+                return Record.create({ name, date, amount, userId, categoryId })
               })
               .catch(error => console.log(error))
           })
           .catch(error => console.log(error))
       }))
-    })
-    .then(() => {
-      console.log('record seeder done.')
-      // process.exit()
+        .then(() => {
+          console.log('record seeder done.')
+          process.exit()
+        })
+        .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
 })
