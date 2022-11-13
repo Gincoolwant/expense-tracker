@@ -55,7 +55,7 @@ FACEBOOK_CALLBACK_URL = http://localhost:3000/auth/facebook/callback
 GOOGLE_CLIENT_ID = #Google Cloud console OAuth 2.0 用戶端編號
 GOOGLE_CLIENT_SECRET = #Google Cloud console OAuth 2.0 用戶端密鑰
 GOOGLE_CALLBACK_URL = http://localhost:3000/auth/google/callback
-MONGODB_URI = #MongoDB connect string
+MONGODB_URI_EXPENSE_TRACKER = #MongoDB connect string
 SESSION_SECRET = #自取SESSION SECRET ex:ThisIsSessionSecret 
 PORT = 3000
 ```
