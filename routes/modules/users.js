@@ -13,7 +13,8 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
-  failureFlash: true
+  failureFlash: true,
+  badRequestMessage: '信箱及密碼不得空白。'
 }))
 
 router.get('/register', (req, res) => {

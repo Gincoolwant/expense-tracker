@@ -40,6 +40,7 @@ router.get('/search', (req, res) => {
 router.get('/new', (req, res) => {
   return Category.find()
     .lean()
+    .sort({ _id: 'asc' })
     .then(categories => {
       res.render('new', { categories })
     })

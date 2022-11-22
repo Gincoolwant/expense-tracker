@@ -13,6 +13,7 @@ module.exports = app => {
 
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+      if (!email || !password) return done(null, false, { message: '請輸入Email及password。' })
       User.findOne({ email })
         .then(user => {
           // 無效email登入嘗試，flash msg提示
